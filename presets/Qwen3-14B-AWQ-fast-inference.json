@@ -1,17 +1,16 @@
 {
     "vllm_config": {
         "engine_args":{
-            "model":"/workspace/models/Qwen3-14B-unsloth-bnb-4bit/",
-            "quantization":"bitsandbytes",
+            "model":"/workspace/models/Qwen3-14B-AWQ/",
+            "quantization":"awq_marlin",
             "max_model_len":32768,
             "max_seq_len_to_capture":32768,
             "enforce_eager":false,
             "compilation_config":{"level": 3, "cudagraph_capture_sizes": [1,2,4,8]},
-            "served_model_name":"Qwen3-14B-unsloth-bnb-4bit",
+            "served_model_name":"Qwen3-14B-AWQ",
             "enable_reasoning":true,
-            "load_format":"bitsandbytes",
+            "load_format":"auto",
             "reasoning_parser":"deepseek_r1",
-            "num_gpu_blocks_override":1800,
             "enable_prefix_caching":true,
             "enable_chunked_prefill":true
         }, 
@@ -27,6 +26,6 @@
             "VLLMC_AUTO_NETWORK_CACHE":true
         }
     },
-    "model": "Qwen3-14B-unsloth-bnb-4bit",
+    "model": "Qwen3-14B-AWQ",
     "prewarm": true
 }
