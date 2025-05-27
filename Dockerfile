@@ -41,7 +41,7 @@ RUN apt-get autoremove -y && \
 #                      STANDALONE - Upload or move models                      #
 # ---------------------------------------------------------------------------- #
 # Use COPY for local files on your disk                                        #
-COPY models/Qwen3-14B-unsloth-bnb-4bit /workspace/models/Qwen3-14B-unsloth-bnb-4bit
+COPY models/Qwen3-14B-AWQ /workspace/models/Qwen3-14B-AWQ
 
 # Or to move the downloaded HuggingFace files to the final image, if you chose this method
 #COPY --from=download /workspace/models /workspace/models

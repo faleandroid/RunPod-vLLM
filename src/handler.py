@@ -50,7 +50,7 @@ async def initialize_engine(input):
 
         # Get .env config, combine it with dynamic request values and prepare it for the engine
         engine_args = {**get_args({}, "VLLME_"), **input["openai_input"].get("vllm_config", {}).get("engine_args", {})}
-        prefixes = ("VLLM_", "OPENAI_", "VLLMC_")
+        prefixes = ("VLLM_", "OPENAI_", "VLLMC_", "TORCHDYNAMO_")
         for key, value in input["openai_input"].get("vllm_config", {}).get("env", {}).items():
             if key.startswith(prefixes):
                 os.environ[key] = str(value)
@@ -186,8 +186,9 @@ def process_input(input):
         # Check what action needs to be taken
         input.setdefault("api", {"action":None,"request":None})
         match input["openai_route"]:
-            case "/v1/chat/completions": 
-                input["api"]["action"] = OpenAIServingChat(engine_client=engine, model_config=api_engine_config, models=api_served_models, response_role=os.getenv("OPENAI_RESPONSE_ROLE", "Assistant"), request_logger=None, chat_template=tokenizer.chat_template, chat_template_content_format="auto", enable_auto_tools=os.getenv("VLLMC_ENABLE_AUTO_TOOL_CHOICE",False) in ("true", "1"), tool_parser=os.getenv("VLLMC_TOOL_CALL_PARSER",None), enable_prompt_tokens_details=False).create_chat_completion
+            case "/v1/chat/completions":
+                tools = bool(int( os.getenv("VLLMC_ENABLE_AUTO_TOOL_CHOICE","0" )))
+                input["api"]["action"] = OpenAIServingChat(engine_client=engine, model_config=api_engine_config, models=api_served_models, response_role=os.getenv("OPENAI_RESPONSE_ROLE", "Assistant"), request_logger=None, chat_template=tokenizer.chat_template, chat_template_content_format="auto", enable_auto_tools=tools, tool_parser=os.getenv("VLLMC_TOOL_CALL_PARSER",None), enable_prompt_tokens_details=False).create_chat_completion
                 input["api"]["request"] = ChatCompletionRequest(**input["openai_input"], chat_template=tokenizer.chat_template )
             case "/v1/completions": 
                 input["api"]["action"] = OpenAIServingCompletion(engine_client=engine, model_config=api_engine_config, models=api_served_models, request_logger=None).create_completion

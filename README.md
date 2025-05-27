@@ -23,7 +23,7 @@ RunPod serverless handler for vLLM, optimized for efficient tuning and productio
 
 > [!TIP]
 > For quick, optimized deployments you can use pre-made images used in our projects:
-> - `Qwen3-14B-unsloth-bnb-4bit`: `3wad/runpod-vllm:0.8.5-qwen3-14B-bnb`
+> - `Qwen3-14B-AWQ`: `3wad/runpod-vllm:0.8.5-qwen3-14B-awq`
 ___
 
 ### Documentation
