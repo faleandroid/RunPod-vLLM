@@ -1,4 +1,4 @@
-![header](https://github.com/user-attachments/assets/1db37795-04ae-4b95-9579-71bd01b43e3f)
+![header](https://github.com/user-attachments/assets/a8236803-9d11-41e0-bde1-817b4aed9bcb)
 
 ![Static Badge](https://img.shields.io/badge/VLLM_version-0.8.5-blue) ![Static Badge](https://img.shields.io/badge/Status-Pre—release-orange)
 
