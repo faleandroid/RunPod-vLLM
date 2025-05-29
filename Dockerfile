@@ -4,8 +4,10 @@
 FROM alpine/git:2.47.2 AS clone
 COPY builder/clone.sh /clone.sh
 
+ARG HF_TOKEN
+ENV HF_TOKEN=${HF_TOKEN}
 # Clone selected HuggingFace repo
-RUN . /clone.sh /workspace/models/ https://huggingface.co/Qwen/Qwen3-14B-AWQ
+RUN . /clone.sh /workspace/models/ https://$HF_TOKEN@huggingface.co/Qwen/Qwen3-14B-AWQ
 
 # ---------------------------------------------------------------------------- #
 #                          SHARED - Build final image                          #
