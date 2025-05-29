@@ -1,7 +1,7 @@
 # ---------------------------------------------------------------------------- #
 #               STANDALONE - Optional: Clone HuggingFace models                #
 # ---------------------------------------------------------------------------- #
-#FROM alpine/git:2.47.2 AS clone
+FROM alpine/git:2.47.2 AS clone
 COPY builder/clone.sh /clone.sh
 
 # Clone selected HuggingFace repo
