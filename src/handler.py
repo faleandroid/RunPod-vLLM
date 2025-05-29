@@ -135,6 +135,7 @@ def get_args(obj, prefix):
         except ValueError: return False
     def convert_value(v):
         if isinstance(v, bool) or isinstance(v, (int, float)): return v
+        if v.strip().lower() in ['none', '']: return None
         if v.lower() in ['true', 'false']: return v.lower() == 'true'
         if v.startswith('{') or v.startswith('['):
             try: return json.loads(v)
