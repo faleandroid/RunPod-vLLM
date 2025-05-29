@@ -20,6 +20,7 @@ ENV DEBIAN_FRONTEND=noninteractive \
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 # Update and install system packages
+RUN sed -i 's|http://archive.ubuntu.com/ubuntu/|http://deb.debian.org/debian/|g' /etc/apt/sources.list
 RUN apt-get update && apt-get upgrade -y && \
     apt install -y wget git python3-pip && \
     apt-get autoremove -y && rm -rf /var/lib/apt/lists/* && apt-get clean -y
