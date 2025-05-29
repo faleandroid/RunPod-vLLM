@@ -1,11 +1,11 @@
 # ---------------------------------------------------------------------------- #
 #               STANDALONE - Optional: Clone HuggingFace models                #
 # ---------------------------------------------------------------------------- #
-#FROM alpine/git:2.47.2 AS clone
-#COPY builder/clone.sh /clone.sh
+FROM alpine/git:2.47.2 AS clone
+COPY builder/clone.sh /clone.sh
 
-# Clone selected HuggingFace repo
-#RUN . /clone.sh /workspace/models/ https://huggingface.co/unsloth/Qwen3-14B-unsloth-bnb-4bit
+# Clone selected HuggingFace repo. Format is: RUN . /clone.sh /model-path https://huggingface.co/author/model branch-name
+RUN . /clone.sh /workspace/models/ https://huggingface.co/Qwen/Qwen3-14B-AWQ main
 
 # ---------------------------------------------------------------------------- #
 #                          SHARED - Build final image                          #
@@ -22,7 +22,7 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 # Update and install system packages
 RUN apt-get update && apt-get upgrade -y && \
     apt install -y wget git python3-pip && \
-    apt-get autoremove -y && rm -rf /var/lib/apt/lists/* && apt-get clean -y
+    apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
 # Install Python dependencies
 COPY builder/requirements.txt /requirements.txt
@@ -41,10 +41,10 @@ RUN apt-get autoremove -y && \
 #                      STANDALONE - Upload or move models                      #
 # ---------------------------------------------------------------------------- #
 # Use COPY for local files on your disk                                        #
-COPY models/Qwen3-14B-AWQ /workspace/models/Qwen3-14B-AWQ
+#COPY models/Qwen3-14B-AWQ /workspace/models/Qwen3-14B-AWQ
 
 # Or to move the downloaded HuggingFace files to the final image, if you chose this method
-#COPY --from=download /workspace/models /workspace/models
+COPY --from=clone /workspace/models /workspace/models
 
 # Or you can use wget to download file(s) from the internet, or individual HuggingFace files only
 # Remember that these models usually need their json config files in the same folder for proper functionality
