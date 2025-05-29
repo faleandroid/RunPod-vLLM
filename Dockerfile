@@ -5,7 +5,7 @@ FROM alpine/git:2.47.2 AS clone
 COPY builder/clone.sh /clone.sh
 
 # Clone selected HuggingFace repo
-RUN . /clone.sh /workspace/models/ https://huggingface.co/Qwen/Qwen3-14B-AWQ
+RUN . /clone.sh /workspace/models/ https://huggingface.co/Qwen/Qwen3-14B-AWQ main
 
 # ---------------------------------------------------------------------------- #
 #                          SHARED - Build final image                          #
