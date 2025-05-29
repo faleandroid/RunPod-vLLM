@@ -4,7 +4,7 @@
 FROM alpine/git:2.47.2 AS clone
 COPY builder/clone.sh /clone.sh
 
-# Clone selected HuggingFace repo
+# Clone selected HuggingFace repo. Format is: RUN . /clone.sh /model-path https://huggingface.co/author/model branch-name
 RUN . /clone.sh /workspace/models/ https://huggingface.co/Qwen/Qwen3-14B-AWQ main
 
 # ---------------------------------------------------------------------------- #
@@ -20,13 +20,9 @@ ENV DEBIAN_FRONTEND=noninteractive \
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 # Update and install system packages
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends \
-        wget \
-        git \
-        python3-pip && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get upgrade -y && \
+    apt install -y wget git python3-pip && \
+    apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
 # Install Python dependencies
 COPY builder/requirements.txt /requirements.txt
