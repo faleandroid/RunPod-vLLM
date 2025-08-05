@@ -1,15 +1,3 @@
-> [!CAUTION]
-> **My RunPod repos have been archived and won't receive any more work!**  
->     
-> Long story short: *There's been an issue with queue delay times that I tried to bring to attention and fix it with the RunPod support team. There are big delays before each container starts, especially before each cold-start (up to 10+ seconds), and they are billed.
-> Couple of users and I insisted on them fixing it for more than 2 months. After countless conversations and endless documentation, it got swept away, and I got banned on their Discord server with no explanation.*
->  
-> I don't know if the delay is an intentional way to silently charge more money per request, but this whole completely unprofessional approach from their side convinced me to end everything regarding their platform, and I can't simply recommend using their serverless services anymore.
-> Here are text copies of the whole [Discord thread](https://pastebin.com/raw/QqLmfN32) and [Email conversations](https://pastebin.com/raw/5LtUvra1) if you want the whole story.
->  
-> I'm sorry it had to end like this. Thank you for your understanding and interest in these projects. Shall we see at others again.
-___
-
 ![header](https://github.com/user-attachments/assets/a8236803-9d11-41e0-bde1-817b4aed9bcb)
 
 ![Static Badge](https://img.shields.io/badge/VLLM_version-0.8.5-blue) ![Static Badge](https://img.shields.io/badge/Status-Pre—release-orange)
