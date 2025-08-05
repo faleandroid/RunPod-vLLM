@@ -163,11 +163,17 @@ def auto_network_cache():
 #                               Functions                                      #
 # ---------------------------------------------------------------------------- #
 def process_input(input):
+    
+    print(f"this it the input {input}")
+    
     try:
         # Ensure the request is OpenAI compatible and supported
         if "openai_route" not in input or "openai_input" not in input: raise Exception(f"This vLLM image currently supports only OpenAI compatible requests that go to 'your-runpod-endpoint/openai/v1/...' paths")
         # Check if the incoming request is only for pre-warm
         if "prewarm" in input["openai_input"]: return "prewarm"
+
+        print(f"not prewarm")
+        
         task_map = { 
             "generate": { "endpoint":["/v1/chat/completions","/v1/completions"] },
             "embedding": { "endpoint":["/v1/embeddings"] }
@@ -197,6 +203,9 @@ def process_input(input):
             case "/v1/embeddings": 
                 input["api"]["action"] = OpenAIServingEmbedding(engine_client=engine, model_config=api_engine_config, models=api_served_models, request_logger=None, chat_template=tokenizer.chat_template, chat_template_content_format="auto").create_embedding
                 input["api"]["request"] = EmbeddingChatRequest(**input["openai_input"], chat_template=tokenizer.chat_template)
+        
+        print(f"this it the final input {input}")
+        
         return input
     except Exception as err:
         return {"err": str(err), "traceback": traceback.format_exc()}
