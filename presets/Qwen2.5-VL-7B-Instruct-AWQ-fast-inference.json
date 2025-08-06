@@ -1,0 +1,29 @@
+{
+    "vllm_config": {
+        "engine_args":{
+            "model":"Qwen/Qwen2.5-VL-7B-Instruct-AWQ",
+            "quantization":"awq_marlin",
+            "max_model_len":8192,
+            "max_seq_len_to_capture":8192,
+            "enforce_eager":false,
+            "compilation_config":{"level": 3, "cudagraph_capture_sizes": [1,2,4,8]},
+            "served_model_name":"Qwen2.5-VL-7B-Instruct-AWQ",
+            "load_format":"auto",
+            "enable_prefix_caching":true,
+            "enable_chunked_prefill":true
+        },
+        "env":{
+            "VLLM_ATTENTION_BACKEND":"FLASHINFER",
+            "VLLM_USE_FLASHINFER_SAMPLER":"1",
+            "VLLM_DISABLE_COMPILE_CACHE":"0",
+            "TORCHDYNAMO_DISABLE":"0",
+            "VLLM_MLA_DISABLE":"1",
+            "VLLM_USE_V1":"0",
+            "VLLMC_ENABLE_AUTO_TOOL_CHOICE":true,
+            "VLLMC_TOOL_CALL_PARSER":"hermes",
+            "VLLMC_AUTO_NETWORK_CACHE":true
+        }
+    },
+    "model": "Qwen/Qwen2.5-VL-7B-Instruct-AWQ",
+    "prewarm": true
+}
