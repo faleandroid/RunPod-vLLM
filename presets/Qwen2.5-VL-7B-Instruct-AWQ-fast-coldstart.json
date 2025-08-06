@@ -1,0 +1,29 @@
+{
+    "vllm_config": {
+        "engine_args":{
+            "model":"Qwen/Qwen2.5-VL-7B-Instruct-AWQ",
+            "quantization":"awq",
+            "max_model_len":8192,
+            "enforce_eager":true,
+            "served_model_name":"Qwen2.5-VL-7B-Instruct-AWQ",
+            "load_format":"auto",
+            "num_gpu_blocks_override":1800,
+            "enable_prefix_caching":true,
+            "num_scheduler_steps":1,
+            "enable_chunked_prefill":true
+        },
+        "env":{
+            "VLLM_ATTENTION_BACKEND":"XFORMERS",
+            "VLLM_USE_FLASHINFER_SAMPLER":"0",
+            "VLLM_DISABLE_COMPILE_CACHE":"1",
+            "TORCHDYNAMO_DISABLE":"1",
+            "VLLM_MLA_DISABLE":"1",
+            "VLLM_USE_V1":"0",
+            "VLLMC_ENABLE_AUTO_TOOL_CHOICE":true,
+            "VLLMC_TOOL_CALL_PARSER":"hermes",
+            "VLLMC_AUTO_NETWORK_CACHE":false
+        }
+    },
+    "model": "Qwen/Qwen2.5-VL-7B-Instruct-AWQ",
+    "prewarm": true
+}
