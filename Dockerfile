@@ -5,7 +5,8 @@ FROM alpine/git:2.47.2 AS clone
 COPY builder/clone.sh /clone.sh
 
 # Clone selected HuggingFace repo. Format is: RUN . /clone.sh /model-path https://huggingface.co/author/model branch-name
-RUN . /clone.sh /workspace/models/Qwen3-14B-AWQ https://huggingface.co/Qwen/Qwen3-14B-AWQ main
+# RUN . /clone.sh /workspace/models/Qwen3-14B-AWQ https://huggingface.co/Qwen/Qwen3-14B-AWQ main
+RUN . /clone.sh /workspace/models/Qwen2.5-VL-7B-Instruct-AWQ https://huggingface.co/Qwen/Qwen2.5-VL-7B-Instruct-AWQ main
 
 # ---------------------------------------------------------------------------- #
 #                          SHARED - Build final image                          #
