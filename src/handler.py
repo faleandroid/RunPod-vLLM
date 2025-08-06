@@ -187,10 +187,19 @@ def process_input(input):
             if input["openai_input"].get(p) is not None: input["sampling_params"][p] = input["openai_input"][p]
         input["openai_input"].update({k: v for k, v in get_args(input.get("sampling_params", {}), "VLLMSP_").items() if k not in openai_unsupported_sampling_params})
         # Check requested model name against supported ones
+
+        print(f"this it the input after params {input}")
+        
         supported_model_names = [ os.getenv("OPENAI_SERVED_MODEL_NAME_OVERRIDE", None) or engine_args["served_model_name"], engine_args["model"] ]
+
+        print(f"supported model names {supported_model_names}")
+        
         if(input["openai_input"]["model"] not in supported_model_names): raise Exception("Requested model name does not match the model name(s) set in this endpoint.")
         input["openai_input"]["model"] = engine_args["model"] # Change the used model to the one set in engine args, since that is the only supported one from vllm's pov
         # Check what action needs to be taken
+
+        print(f"this it the input after model {input}")
+        
         input.setdefault("api", {"action":None,"request":None})
         match input["openai_route"]:
             case "/v1/chat/completions":
