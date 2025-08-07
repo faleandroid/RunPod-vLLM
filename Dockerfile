@@ -28,7 +28,7 @@ RUN apt-get update && apt-get upgrade -y && \
 # Install Python dependencies
 COPY builder/requirements.txt /requirements.txt
 RUN --mount=type=cache,target=/root/.cache/pip \
-    pip install --upgrade pip && \
+    pip install --upgrade pip setuptools wheel && \
     pip install --upgrade -r /requirements.txt --no-cache-dir && \
     rm /requirements.txt && \
     pip install flash-attn --no-build-isolation
