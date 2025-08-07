@@ -31,7 +31,7 @@ RUN --mount=type=cache,target=/root/.cache/pip \
     pip install --upgrade pip && \
     pip install --upgrade -r /requirements.txt --no-cache-dir && \
     rm /requirements.txt && \
-    pip install flashinfer-python==0.2.5 -i https://flashinfer.ai/whl/cu124/torch2.6/
+    pip install flash-attn --no-build-isolation
 
 # Cleanup
 RUN apt-get autoremove -y && \
