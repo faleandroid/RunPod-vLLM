@@ -22,8 +22,23 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 # Update and install system packages
 RUN apt-get update && apt-get upgrade -y && \
-    apt install -y wget git python3-pip && \
+    apt install -y wget git && \
     apt-get clean -y && rm -rf /var/lib/apt/lists/*
+
+# Add the deadsnakes PPA and install Python 3.10
+RUN add-apt-repository ppa:deadsnakes/ppa -y && \
+    apt-get install python3.12-dev python3.12-venv python3-pip -y --no-install-recommends && \
+    ln -s /usr/bin/python3.12 /usr/bin/python && \
+    rm /usr/bin/python3 && \
+    ln -s /usr/bin/python3.12 /usr/bin/python3 && \
+    apt-get autoremove -y && \
+    apt-get clean -y && \
+    rm -rf /var/lib/apt/lists/*
+
+# Download and install pip
+RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && \
+    python get-pip.py && \
+    rm get-pip.py
 
 # Install Python dependencies
 COPY builder/requirements.txt /requirements.txt
