@@ -163,18 +163,12 @@ def auto_network_cache():
 #                               Functions                                      #
 # ---------------------------------------------------------------------------- #
 def process_input(input):
-    
-    
-    print(f"this it the input {input}")
-    
+
     try:
         # Ensure the request is OpenAI compatible and supported
         if "openai_route" not in input or "openai_input" not in input: raise Exception(f"This vLLM image currently supports only OpenAI compatible requests that go to 'your-runpod-endpoint/openai/v1/...' paths")
         # Check if the incoming request is only for pre-warm
-        if "prewarm" in input["openai_input"]: return "prewarm"
-
-        print(f"not prewarm")
-        
+        if "prewarm" in input["openai_input"]: return "prewarm"        
         task_map = { 
             "generate": { "endpoint":["/v1/chat/completions","/v1/completions"] },
             "embedding": { "endpoint":["/v1/embeddings"] }
@@ -188,18 +182,12 @@ def process_input(input):
             if input["openai_input"].get(p) is not None: input["sampling_params"][p] = input["openai_input"][p]
         input["openai_input"].update({k: v for k, v in get_args(input.get("sampling_params", {}), "VLLMSP_").items() if k not in openai_unsupported_sampling_params})
         # Check requested model name against supported ones
-
-        print(f"this it the input after params {input}")
         
         supported_model_names = [ os.getenv("OPENAI_SERVED_MODEL_NAME_OVERRIDE", None) or engine_args["served_model_name"], engine_args["model"] ]
-
-        print(f"supported model names {supported_model_names}")
         
         if(input["openai_input"]["model"] not in supported_model_names): raise Exception("Requested model name does not match the model name(s) set in this endpoint.")
         input["openai_input"]["model"] = engine_args["model"] # Change the used model to the one set in engine args, since that is the only supported one from vllm's pov
         # Check what action needs to be taken
-
-        print(f"this it the input after model {input}")
         
         input.setdefault("api", {"action":None,"request":None})
         match input["openai_route"]:
@@ -213,8 +201,6 @@ def process_input(input):
             case "/v1/embeddings": 
                 input["api"]["action"] = OpenAIServingEmbedding(engine_client=engine, model_config=api_engine_config, models=api_served_models, request_logger=None, chat_template=tokenizer.chat_template, chat_template_content_format="auto").create_embedding
                 input["api"]["request"] = EmbeddingChatRequest(**input["openai_input"], chat_template=tokenizer.chat_template)
-        
-        print(f"this it the final input {input}")
         
         return input
     except Exception as err:
