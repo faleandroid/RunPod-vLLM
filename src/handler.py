@@ -81,7 +81,7 @@ async def initialize_engine(input):
                 lora_modules = [LoRAModulePath(**lora_modules)]
             except: lora_modules = None
 
-        api_served_models = OpenAIServingModels(engine_client=engine, model_config=api_engine_config, base_model_paths=[BaseModelPath(name=engine_args["model"], model_path=engine_args["model"])], lora_modules=lora_modules, prompt_adapters=None)
+        api_served_models = OpenAIServingModels(engine_client=engine, model_config=api_engine_config, base_model_paths=[BaseModelPath(name=engine_args["model"], model_path=engine_args["model"])], lora_modules=lora_modules)
         print('─' * 20, "--- VLLM engine and model cold start initialization took %s seconds ---" % (time.time() - st), '─' * 20, "*Unfortunately, this time is being billed.", sep=os.linesep)
 
 def initialize_tokenizer():
