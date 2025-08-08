@@ -201,6 +201,8 @@ def process_input(input):
             case "/v1/embeddings": 
                 input["api"]["action"] = OpenAIServingEmbedding(engine_client=engine, model_config=api_engine_config, models=api_served_models, request_logger=None, chat_template=tokenizer.chat_template, chat_template_content_format="auto").create_embedding
                 input["api"]["request"] = EmbeddingChatRequest(**input["openai_input"], chat_template=tokenizer.chat_template)
+
+        print(f'this is the input {input}')
         
         return input
     except Exception as err:
