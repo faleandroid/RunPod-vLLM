@@ -177,6 +177,9 @@ def process_input(input):
         print('not prewarm')
         
         if input["openai_route"] not in task_map[engine_args["task"]]["endpoint"]: raise Exception(f"This vLLM endpoint has engine task set to '{engine_args['task']}', so it supports calling only '{task_map[engine_args['task']]['endpoint']}'")
+
+        print(f'input router {input}')
+        
         # Gather and merge Sampling Params
         vllm_supported_sampling_params = ["n","best_of","presence_penalty","frequency_penalty","repetition_penalty","temperature","top_p","top_k","min_p","seed","stop","stop_token_ids","bad_words","include_stop_str_in_output","ignore_eos","max_tokens","min_tokens","logprobs","prompt_logprobs","detokenize","skip_special_tokens","spaces_between_special_tokens","logits_processors","truncate_prompt_tokens","guided_decoding","logit_bias","allowed_token_ids"]
         openai_unsupported_sampling_params = ["bad_words", "detokenize", "allowed_token_ids"]
@@ -185,6 +188,8 @@ def process_input(input):
             if input["openai_input"].get(p) is not None: input["sampling_params"][p] = input["openai_input"][p]
         input["openai_input"].update({k: v for k, v in get_args(input.get("sampling_params", {}), "VLLMSP_").items() if k not in openai_unsupported_sampling_params})
         # Check requested model name against supported ones
+
+        print(f'input model {input}')
         
         supported_model_names = [ os.getenv("OPENAI_SERVED_MODEL_NAME_OVERRIDE", None) or engine_args["served_model_name"], engine_args["model"] ]
         
