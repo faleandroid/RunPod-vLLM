@@ -173,6 +173,9 @@ def process_input(input):
             "generate": { "endpoint":["/v1/chat/completions","/v1/completions"] },
             "embedding": { "endpoint":["/v1/embeddings"] }
         }
+
+        print('not prewarm')
+        
         if input["openai_route"] not in task_map[engine_args["task"]]["endpoint"]: raise Exception(f"This vLLM endpoint has engine task set to '{engine_args['task']}', so it supports calling only '{task_map[engine_args['task']]['endpoint']}'")
         # Gather and merge Sampling Params
         vllm_supported_sampling_params = ["n","best_of","presence_penalty","frequency_penalty","repetition_penalty","temperature","top_p","top_k","min_p","seed","stop","stop_token_ids","bad_words","include_stop_str_in_output","ignore_eos","max_tokens","min_tokens","logprobs","prompt_logprobs","detokenize","skip_special_tokens","spaces_between_special_tokens","logits_processors","truncate_prompt_tokens","guided_decoding","logit_bias","allowed_token_ids"]
@@ -188,6 +191,8 @@ def process_input(input):
         if(input["openai_input"]["model"] not in supported_model_names): raise Exception("Requested model name does not match the model name(s) set in this endpoint.")
         input["openai_input"]["model"] = engine_args["model"] # Change the used model to the one set in engine args, since that is the only supported one from vllm's pov
         # Check what action needs to be taken
+
+        print(f'this is the input {input}')
         
         input.setdefault("api", {"action":None,"request":None})
         match input["openai_route"]:
@@ -202,7 +207,7 @@ def process_input(input):
                 input["api"]["action"] = OpenAIServingEmbedding(engine_client=engine, model_config=api_engine_config, models=api_served_models, request_logger=None, chat_template=tokenizer.chat_template, chat_template_content_format="auto").create_embedding
                 input["api"]["request"] = EmbeddingChatRequest(**input["openai_input"], chat_template=tokenizer.chat_template)
 
-        print(f'this is the input {input}')
+        print(f'this is the final input {input}')
         
         return input
     except Exception as err:
