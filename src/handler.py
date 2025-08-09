@@ -192,6 +192,8 @@ def process_input(input):
         print(f'input model {input}')
         
         supported_model_names = [ os.getenv("OPENAI_SERVED_MODEL_NAME_OVERRIDE", None) or engine_args["served_model_name"], engine_args["model"] ]
+
+        print(f'supportedModelNames model {supported_model_names}')
         
         if(input["openai_input"]["model"] not in supported_model_names): raise Exception("Requested model name does not match the model name(s) set in this endpoint.")
         input["openai_input"]["model"] = engine_args["model"] # Change the used model to the one set in engine args, since that is the only supported one from vllm's pov
