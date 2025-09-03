@@ -11,7 +11,7 @@ RUN . /clone.sh /workspace/models/Qwen2.5-VL-7B-Instruct-AWQ https://huggingface
 # ---------------------------------------------------------------------------- #
 #                          SHARED - Build final image                          #
 # ---------------------------------------------------------------------------- #
-FROM runpod/pytorch:0.7.0-cu1281-torch271-ubuntu2204 AS build_final_image
+FROM runpod/pytorch:2.8.0-py3.11-cuda12.8.1-cudnn-devel-ubuntu22.04 AS build_final_image
 ENV DEBIAN_FRONTEND=noninteractive \
     PIP_PREFER_BINARY=1 \
     PYTHONUNBUFFERED=1 \
