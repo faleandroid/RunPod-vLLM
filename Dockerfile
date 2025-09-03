@@ -15,9 +15,10 @@ FROM runpod/pytorch:2.8.0-py3.11-cuda12.8.1-cudnn-devel-ubuntu22.04 AS build_fin
 ENV DEBIAN_FRONTEND=noninteractive \
     PIP_PREFER_BINARY=1 \
     PYTHONUNBUFFERED=1 \
-    VLLM_USE_PRECOMPILED=true \
+    VLLM_USE_PRECOMPILED=false \
     FLASHINFER_ENABLE_AOT=1 \
-    TOKENIZERS_PARALLELISM=false
+    TOKENIZERS_PARALLELISM=false \
+    TORCH_CUDA_ARCH_LIST="12.0;12.0+PTX"
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 # Update and install system packages
@@ -49,6 +50,14 @@ RUN --mount=type=cache,target=/root/.cache/pip \
     pip install --upgrade -r /requirements.txt --no-cache-dir && \
     rm /requirements.txt && \
     pip install flash-attn --no-build-isolation
+
+# FlashAttention compiled for sm_120
+RUN --mount=type=cache,target=/root/.cache/pip \
+    pip install --no-build-isolation flash-attn
+
+# vLLM built from source (until wheels include sm_120)
+RUN --mount=type=cache,target=/root/.cache/pip \
+    pip install "vllm @ git+https://github.com/vllm-project/vllm.git"
 
 # Cleanup
 RUN apt-get autoremove -y && \
